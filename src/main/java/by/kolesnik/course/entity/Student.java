@@ -30,9 +30,18 @@ public class Student {
     @JoinColumn(name = "record_book_id")
     private RecordBook recordBook;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "students_courses",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Collection<Course> courses;
+
     public Student() {
     }
-
 
     public Student(String name, String lastName, String phoneNumber, LocalDate birthday) {
         this.name = name;
@@ -89,7 +98,21 @@ public class Student {
         this.birthday = birthday;
     }
 
+    public Group getGroup() {
+        return group;
+    }
 
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Collection<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Collection<Course> courses) {
+        this.courses = courses;
+    }
 
     @Override
     public String toString() {
